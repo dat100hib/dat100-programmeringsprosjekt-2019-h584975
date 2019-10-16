@@ -39,6 +39,7 @@ public class ShowRoute extends EasyGraphics {
 		playRoute(MARGIN + MAPYSIZE);
 		
 		showStatistics();
+		
 	}
 
 	// antall x-pixels per lengdegrad
@@ -55,23 +56,39 @@ public class ShowRoute extends EasyGraphics {
 	// antall y-pixels per breddegrad
 	public double ystep() {
 	
-		double ystep;
 		
-		// TODO - START
+		double maxlat = GPSUtils.findMax(GPSUtils.getLatitudes(gpspoints));
+		double minlat = GPSUtils.findMin(GPSUtils.getLatitudes(gpspoints));
 		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// TODO - SLUTT
+		double ystep = MAPYSIZE / (Math.abs(maxlat - minlat)); 
 		
+		return ystep;
 	}
 
 	public void showRouteMap(int ybase) {
 
-		// TODO - START
+		double ystep = ystep() * 0.7;
+		double xstep = xstep();
+		int xstart = 50;
+		int x = 0;
+		int y = 0;
+		int ystart = (int)(ybase * 0.25);
+		for (int i = 0; i < gpspoints.length; i++) {
+				if (i == 0) {
+					setColor(0,255,0);
+					fillCircle(xstart, (int)(ystart), 3);
+				} else {
+					x += (int)((gpspoints[i].getLongitude() - gpspoints[i-1].getLongitude()) * xstep);
+					y += (int)((gpspoints[i].getLatitude() - gpspoints[i-1].getLatitude()) * ystep);
+					
+					pause(10);
+					fillCircle(xstart + x, ystart - y, 3);
+					
+					
+				}
+		}
 		
-		throw new UnsupportedOperationException(TODO.method());
 		
-		// TODO - SLUTT
 	}
 
 	public void showStatistics() {
@@ -81,20 +98,22 @@ public class ShowRoute extends EasyGraphics {
 		setColor(0,0,0);
 		setFont("Courier",12);
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - SLUTT;
+		drawString("Total time      :     " + GPSUtils.formatTime(gpscomputer.totalTime()), 10,20);
+		pause(200);
+		drawString("Total distance  :     " + String.format("%7.2f", gpscomputer.totalDistance()/1000.00) + " km",10,40);
+		pause(200);
+		drawString("Total elevation :     " + String.format("%7.2f", gpscomputer.totalElevation()) + " m",10,60);
+		pause(200);
+		drawString("Max speed       :     " + String.format("%7.2f", gpscomputer.maxSpeed()) + " km/t",10,80);
+		pause(200);
+		drawString("Average speed   :     " + String.format("%7.2f", gpscomputer.averageSpeed()) + " km/t",10,100);
+		pause(200);
+		drawString("Energy          :     " + String.format("%7.2f", gpscomputer.totalKcal(80)) + " kcal",10,120);
 	}
 
 	public void playRoute(int ybase) {
 
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - SLUTT
+
 	}
 
 }

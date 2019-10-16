@@ -45,11 +45,25 @@ public class ShowSpeed extends EasyGraphics {
 		
 		System.out.println("Angi tidsskalering i tegnevinduet ...");
 		int timescaling = Integer.parseInt(getText("Tidsskalering"));
-				
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
 	
-		// TODO - SLUTT
+		int yStart = ybase;
+		int xVerdi;
+		int yStopp;
+		int gjennomsnitt = yStart - (int)gpscomputer.averageSpeed();
+		
+		
+		for(int i = 0; i < N; i++) {
+			
+			xVerdi = i;
+			yStopp = yStart - (int)GPSUtils.speed(gpspoints[i], gpspoints[i+1]);
+			
+			setColor(0,0,255);
+			drawLine(2 * xVerdi + 50,yStart, 2 * xVerdi + 50, yStopp);
+			pause(timescaling);
+			
+			}
+			setColor(0,255,0);
+			drawLine(50,gjennomsnitt,(N*2)+50,gjennomsnitt);
+	
 	}
 }
